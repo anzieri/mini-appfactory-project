@@ -30,3 +30,15 @@ jobs:
       - name: Run Pytest Suite
         run: |
           python -m pytest
+
+  deploy:
+      needs: test
+      runs-on: ubuntu-latest
+      steps:
+        - name: Webhook Trigger to Render
+          run: |
+            curl -X POST "$RENDER_DEPLOY_HOOK"
+          env:
+            RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+
+
